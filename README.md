@@ -19,8 +19,8 @@ This Laravel application provides a robust API for interacting with AI models th
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/ai-agent-laravel.git
-cd ai-agent-laravel
+git clone https://github.com/amirmmdz/laravel-ai-agent.git
+cd laravel-ai-agent
 ```
 
 2. Install dependencies:
@@ -50,8 +50,9 @@ DB_PASSWORD=
 
 6. Configure your AI provider credentials:
 ```
-AI_DEEPSEEK_MODEL_NAME=deepseek/deepseek-r1:free
-OPENAI_API_KEY=your_openai_key_here
+AI_DEEPSEEK_MODEL_NAME=
+AI_API_KEY=
+AI_BASE_URL=
 ```
 
 7. Run migrations:
@@ -125,10 +126,6 @@ class NewProviderChatbotHandlerService implements IAiChatbotHandler {
 ```
 
 2. Bind the service in the service provider as needed.
-
-## 📄 License
-
-This project is open-sourced software licensed under the [MIT license](LICENSE).
 
 ## 🤝 Contributing
 
