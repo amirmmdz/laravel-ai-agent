@@ -4,7 +4,7 @@ A Laravel-based application for AI chat agents, allowing dynamic conversations w
 
 ## 📋 Overview
 
-This Laravel application provides a robust API for interacting with AI models through a chat interface. The system supports multiple clients with their own configurations and default messages, making it adaptable for various use cases.
+This Laravel application provides an API for interacting with AI models through a chat interface. The system supports multiple clients with their own configurations and default messages, making it adaptable for various use cases.
 
 ## ✨ Features
 
