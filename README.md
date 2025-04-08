@@ -1,66 +1,141 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# AI Agent Laravel Application
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A Laravel-based application for AI chat agents, allowing dynamic conversations with multiple AI models with client-based API access.
 
-## About Laravel
+## 📋 Overview
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+This Laravel application provides a robust API for interacting with AI models through a chat interface. The system supports multiple clients with their own configurations and default messages, making it adaptable for various use cases.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## ✨ Features
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Client Management**: Create and manage AI clients with their own tokens and configurations
+- **Multi-Model Support**: Currently implements Deepseek models, but architecture supports adding more AI providers
+- **Chat Sessions**: Create and manage persistent chat sessions
+- **Message History**: Keep track of conversation history
+- **Client-specific Default Messages**: Configure default prompts/messages for each client
+- **API Documentation**: Comprehensive Swagger documentation
 
-## Learning Laravel
+## 🚀 Installation
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/ai-agent-laravel.git
+cd ai-agent-laravel
+```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+2. Install dependencies:
+```bash
+composer install
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+3. Copy the environment file:
+```bash
+cp .env.example .env
+```
 
-## Laravel Sponsors
+4. Generate application key:
+```bash
+php artisan key:generate
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+5. Configure your database in the `.env` file:
+```
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=ai_agent
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-### Premium Partners
+6. Configure your AI provider credentials:
+```
+AI_DEEPSEEK_MODEL_NAME=deepseek/deepseek-r1:free
+OPENAI_API_KEY=your_openai_key_here
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+7. Run migrations:
+```bash
+php artisan migrate
+```
 
-## Contributing
+8. Generate API documentation:
+```bash
+php artisan l5-swagger:generate
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+9. Start the server:
+```bash
+php artisan serve
+```
 
-## Code of Conduct
+## 📝 API Documentation
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Access the API documentation at `/api/documentation` after starting the server.
 
-## Security Vulnerabilities
+### Key Endpoints
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/v1/chats` | Create a new chat session |
+| GET | `/api/v1/chats/{uuid}` | Get chat details |
+| GET | `/api/v1/chats/{uuid}/messages` | Get all messages for a chat |
+| POST | `/api/v1/chats/{uuid}/messages` | Send a new message in a chat |
+| GET | `/api/v1/clients` | Get client details |
+| GET | `/api/v1/clients/messages` | Get default messages for a client |
 
-## License
+## 🔒 Authentication
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+All API requests require a client token passed in the `X-Client-Token` header. Tokens are associated with AI clients and can be managed through the database or an admin interface.
+
+Example:
+```
+GET /api/v1/clients
+X-Client-Token: your_client_token_here
+```
+
+## 🏗️ Architecture
+
+### Models
+
+- **User**: Represents a user who owns AI clients
+- **AiClient**: Represents an AI service client with configuration
+- **AiClientDefaultMessage**: Default messages/prompts for a client
+- **AiChat**: Represents a chat session with an AI model
+- **AiChatMessage**: Individual messages within a chat session
+
+### Services
+
+- **AiChatService**: Core service for interacting with AI models
+- **DeepseekChatbotHandlerService**: Implementation for Deepseek AI models
+
+### Interfaces
+
+- **IAiChatbotHandler**: Interface for different AI provider implementations
+
+## 🧩 Extending with New AI Providers
+
+To add a new AI provider:
+
+1. Create a new service implementing the `IAiChatbotHandler` interface:
+```php
+class NewProviderChatbotHandlerService implements IAiChatbotHandler {
+    // Implement required methods
+}
+```
+
+2. Bind the service in the service provider as needed.
+
+## 📄 License
+
+This project is open-sourced software licensed under the [MIT license](LICENSE).
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/amazing-feature`)
+3. Commit your Changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the Branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
